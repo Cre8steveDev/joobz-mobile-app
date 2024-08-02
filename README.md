@@ -25,7 +25,7 @@ This repository contains the frontend implementation of Joobz, demonstrating exp
 
 I invite you to explore Joobz and experience the future of service networking – where quality meets convenience, and every task finds its perfect match.
 
-![Figma Design of Joobz (Errands and Services) - Designed by Me](image.png)
+![Figma Design of Joobz (Errands and Services) - Designed by Me](image.jpg)
 
 ## AUTHOR
 
