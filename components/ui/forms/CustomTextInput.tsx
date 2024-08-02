@@ -5,43 +5,51 @@ import {
   TextInput,
   View,
 } from 'react-native';
-import React from 'react';
+import React, { ReactNode } from 'react';
 import Colors from '@/constants/Colors';
 
 type CustomTextInputProp = {
   value: string;
-  setValue: React.Dispatch<React.SetStateAction<string>>;
-  placeholder: string;
+  setValue: (text: string) => void;
+  placeholder?: string;
   textColor?: string;
   bgColor?: string;
   keyBoardType?: KeyboardTypeOptions;
   returnType?: ReturnKeyTypeOptions;
-  extraStyles?: any;
+  inputStyles?: any;
   containerStyle?: any;
+  children: ReactNode;
   editable?: boolean;
 };
 
 const CustomTextInput = ({
   value,
   setValue,
-  placeholder,
+  placeholder = '',
   textColor,
   bgColor,
   keyBoardType = 'default',
   returnType = 'next',
-  extraStyles,
+  inputStyles,
   containerStyle,
   editable = true,
+  children,
 }: CustomTextInputProp) => {
   return (
-    <View style={containerStyle && containerStyle}>
+    <View
+      style={[
+        containerStyle && containerStyle,
+        styles.container,
+        { backgroundColor: bgColor ? bgColor : Colors.neutral },
+      ]}
+    >
+      {children}
       <TextInput
         style={[
-          extraStyles && extraStyles,
+          inputStyles && inputStyles,
           styles.input,
           {
             color: textColor ? textColor : Colors.gray,
-            backgroundColor: bgColor ? bgColor : Colors.neutral,
           },
         ]}
         value={value}
@@ -53,7 +61,6 @@ const CustomTextInput = ({
         keyboardType={keyBoardType}
         autoComplete="off"
         returnKeyType={returnType}
-        // textContentType="none" // iOS-specific
         autoCapitalize="none"
         autoCorrect={false}
         editable={editable}
@@ -65,12 +72,19 @@ const CustomTextInput = ({
 export default CustomTextInput;
 
 const styles = StyleSheet.create({
+  container: {
+    borderTopRightRadius: 15,
+    borderBottomRightRadius: 15,
+    borderBottomLeftRadius: 15,
+    padding: 12,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 5,
+  },
+
   input: {
     fontFamily: 'PoppinsRegular',
+    width: '100%',
     fontSize: 18,
-    padding: 8,
-    paddingLeft: 15,
-    paddingTop: 11,
-    borderRadius: 10,
   },
 });

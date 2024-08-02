@@ -5,28 +5,30 @@ import {
   TouchableOpacity,
   KeyboardTypeOptions,
 } from 'react-native';
-import React, { useState } from 'react';
+import React, { ReactNode, useState } from 'react';
 import Colors from '@/constants/Colors';
 import { Ionicons } from '@expo/vector-icons';
 
 type CustomPasswordInputProp = {
   value: string;
-  setValue: React.Dispatch<React.SetStateAction<string>>;
-  placeholder: string;
+  setValue: (text: string) => void;
+  placeholder?: string;
   textColor?: string;
   bgColor?: string;
   keyBoardType?: KeyboardTypeOptions;
   extraStyles?: any;
+  children?: ReactNode;
 };
 
 const CustomPasswordInput = ({
   value,
   setValue,
-  placeholder,
+  placeholder = '',
   textColor,
   bgColor,
   keyBoardType,
   extraStyles = {},
+  children,
 }: CustomPasswordInputProp) => {
   const [showPassword, setShowPassword] = useState(false);
   return (
@@ -34,28 +36,32 @@ const CustomPasswordInput = ({
       style={[
         extraStyles,
         styles.inputContainer,
-        { backgroundColor: bgColor ? bgColor : Colors.primary },
+        { backgroundColor: bgColor ? bgColor : Colors.neutral },
       ]}
     >
-      <TextInput
-        style={[
-          styles.input,
-          {
-            color: textColor ? textColor : Colors.gray,
-          },
-        ]}
-        value={value}
-        onChangeText={setValue}
-        placeholder={placeholder}
-        secureTextEntry={!showPassword}
-        placeholderTextColor={Colors.gray}
-        cursorColor={Colors.secondary}
-        keyboardAppearance="light"
-        keyboardType={keyBoardType}
-        autoComplete="off"
-        autoCapitalize="none"
-        autoCorrect={false}
-      />
+      <View style={{ width: '90%', flexDirection: 'row', gap: 5 }}>
+        {children}
+
+        <TextInput
+          style={[
+            styles.input,
+            {
+              color: textColor ? textColor : Colors.gray,
+            },
+          ]}
+          value={value}
+          onChangeText={setValue}
+          placeholder={placeholder}
+          secureTextEntry={!showPassword}
+          placeholderTextColor={Colors.gray}
+          cursorColor={Colors.secondary}
+          keyboardAppearance="light"
+          keyboardType={keyBoardType}
+          autoComplete="off"
+          autoCapitalize="none"
+          autoCorrect={false}
+        />
+      </View>
       <TouchableOpacity
         onPress={() => setShowPassword(!showPassword)}
         style={styles.iconContainer}
@@ -75,14 +81,15 @@ export default CustomPasswordInput;
 const styles = StyleSheet.create({
   inputContainer: {
     flexDirection: 'row',
-    padding: 8,
-    paddingTop: 11,
-    paddingLeft: 15,
-    borderRadius: 10,
+    borderTopRightRadius: 15,
+    borderBottomRightRadius: 15,
+    borderBottomLeftRadius: 15,
+    padding: 12,
+    alignItems: 'center',
   },
   input: {
     fontFamily: 'PoppinsRegular',
-    fontSize: 16,
+    fontSize: 18,
     width: '90%',
   },
   iconContainer: {},
