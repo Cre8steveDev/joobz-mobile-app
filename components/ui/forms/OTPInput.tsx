@@ -62,7 +62,7 @@ const OTPInput: React.FC<OTPInputProps> = ({
                 ? [styles.filledInput, filledInputStyle]
                 : { backgroundColor: Colors.neutral },
             ]}
-            cursorColor={Colors.primary}
+            cursorColor={Colors.white}
             maxLength={1}
             keyboardType="numeric"
             onChangeText={(text) => handleChange(text, index)}

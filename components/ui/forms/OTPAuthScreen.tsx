@@ -8,12 +8,17 @@ import useToast from '@/components/Toast';
 import Button from '../buttons/Button';
 import { Ionicons } from '@expo/vector-icons';
 import Congratulations from '@/components/Congratulations';
+
+import hideEmail from '@/lib/hideEmailAddress';
+
 import { useRouter } from 'expo-router';
+import { API } from '@/constants/BaseUrl';
 
 type OTPAuthType = {
   userEmail: string;
   setShowOTPModal: React.Dispatch<React.SetStateAction<boolean>>;
   showOTPModal: boolean;
+  type: 'User' | 'Freelancer';
 };
 
 // OTP Screen Component
@@ -21,13 +26,17 @@ const OTPAuthScreen = ({
   userEmail,
   showOTPModal,
   setShowOTPModal,
+  type,
 }: OTPAuthType) => {
   const [loading, setLoading] = useState(false);
   const [OTPTimer, setOTPTimer] = useState(60);
+
   // Define state for the entered OTP Value
   const [OTPValue, setOTPVALUE] = useState('');
   const [OTPVerifySuccess, setOTPVerifySuccess] = useState(false);
   const [triggerResend, setTriggerResend] = useState(1);
+  const [otpError, setOtpError] = useState(false);
+  const [otpMessage, setOtpMessage] = useState('');
 
   //   Define router
   const router = useRouter();
@@ -47,16 +56,50 @@ const OTPAuthScreen = ({
   //   Handle Verify OTP
   const handleVerifyOTP = async () => {
     setLoading(true);
+    setOtpError(false);
     console.log('Verifying OTP');
-    setTimeout(() => {
-      setLoading(false);
-      setOTPVerifySuccess(true);
-    }, 3000);
+
+    try {
+      const response = await API.post('/api/auth/verify-otp', {
+        userType: type,
+        OTP: OTPValue,
+        email: userEmail,
+      });
+
+      if (response.data.success) {
+        useToast('OTP Verification Successful.', 'green', 'white');
+
+        setOTPVerifySuccess(true);
+      }
+    } catch (error: any) {
+      setOtpError(true);
+      if (error?.message?.includes('401'))
+        setOtpMessage('OTP has expired. Request a new one.');
+      if (error?.message?.includes('403'))
+        setOtpMessage('Invalid OTP. Please confirm the code sent.');
+      if (error?.message?.includes('404'))
+        setOtpMessage('An Unknown Error Occurred.');
+    }
+
+    return setLoading(false);
   };
 
   //   Re-request new OTP to mail
   const resendOTPCode = async () => {
-    useToast('New OTP Requested. Check your mail');
+    try {
+      const response = await API.post('/api/auth/renew-otp', {
+        userType: type,
+        email: userEmail,
+      });
+
+      if (response.data.success) {
+        useToast('New OTP Requested. Check your mail');
+      }
+    } catch (error) {
+      console.log(error);
+      useToast('Error Requesting New OTP. Try again later.');
+    }
+
     setTriggerResend((prev) => ++prev);
   };
 
@@ -78,7 +121,7 @@ const OTPAuthScreen = ({
               <Text style={styles.subheading}>
                 Please enter the short code sent to your email.{' '}
               </Text>
-              <Text style={styles.subheadingBold}>{userEmail}</Text>
+              <Text style={styles.subheadingBold}>{hideEmail(userEmail)}</Text>
 
               {/* Input Button */}
               <View style={{ width: '100%' }}>
@@ -114,12 +157,16 @@ const OTPAuthScreen = ({
                   <Ionicons name="checkmark-circle" color={'white'} size={24} />
                 }
                 text={loading ? 'Verifying...' : 'Complete Registration'}
-                disabled={loading}
+                disabled={loading || OTPValue.length < 5}
                 textColor="white"
                 bgColor={Colors.secondary}
                 onPress={handleVerifyOTP}
                 extraStyles={{ padding: 12, borderRadius: 7, marginTop: 10 }}
               />
+
+              {!loading && otpError && (
+                <Text style={styles.otpErrorMessage}>{otpMessage}</Text>
+              )}
             </View>
           </>
         )}
@@ -189,4 +236,9 @@ const styles = StyleSheet.create({
   },
   resendTimer: { fontFamily: 'PoppinsSemiBold', color: Colors.secondary },
   resendLink: { fontFamily: 'PoppinsExtraBold', color: Colors.secondary },
+  otpErrorMessage: {
+    color: 'red',
+    textAlign: 'center',
+    marginHorizontal: 5,
+  },
 });

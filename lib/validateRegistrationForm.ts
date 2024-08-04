@@ -1,4 +1,5 @@
 import useToast from '@/components/Toast';
+import { RegisterData } from '@/types/global';
 
 const validateRegistrationForm = (
   formData: RegisterData,
@@ -82,7 +83,7 @@ const validateRegistrationForm = (
     'Yobe',
     'Zamfara',
   ];
-  if (!validStates.includes(formData.stateOfResidence)) {
+  if (!validStates.includes(formData.state)) {
     useToast('Please select a valid state of residence', 'red');
     return false;
   }

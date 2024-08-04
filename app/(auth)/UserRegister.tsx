@@ -22,8 +22,9 @@ import nigerianStates from '@/constants/NigerianStates';
 import LoadingScreen from '@/components/ui/LoadingScreen';
 import ValidateUserRegistrationForm from '@/lib/validateRegistrationForm';
 import OTPAuthScreen from '@/components/ui/forms/OTPAuthScreen';
-import hideEmail from '@/lib/hideEmailAddress';
+
 import { RegisterData } from '@/types/global';
+import HandleEmailRegistration from '@/lib/handleEmailRegistration';
 
 const UserRegistration = () => {
   const router = useRouter();
@@ -46,6 +47,10 @@ const UserRegistration = () => {
   // Handle Login of User
   const handleEmailAndPasswordRegistration = async () => {
     setLoading(true);
+    setShowOTPModal(false);
+    setRegistrationSuccess(false);
+
+    // Mini Validation of user Field
     const isValid = ValidateUserRegistrationForm(formData);
 
     if (!isValid) {
@@ -53,13 +58,15 @@ const UserRegistration = () => {
       return;
     }
     console.log('The Form Data: ', formData);
+    const registration = await HandleEmailRegistration(formData, 'User');
+    console.log('After REgistration function.');
 
-    // setTimeout(() => setLoading(false), 5000);
-    setTimeout(() => {
-      setLoading(false);
-      setRegistrationSuccess(true);
+    if (registration.success) {
       setShowOTPModal(true);
-    }, 5000);
+      setRegistrationSuccess(true);
+    }
+
+    setLoading(false);
   };
 
   // Return JSX to view
@@ -210,9 +217,10 @@ const UserRegistration = () => {
           {/* OTP Verification Screen */}
           {registrationSuccess && (
             <OTPAuthScreen
-              userEmail={hideEmail(formData.email)}
+              userEmail={formData.email}
               showOTPModal={showOTPModal}
               setShowOTPModal={setShowOTPModal}
+              type="User"
             />
           )}
         </ScrollView>
