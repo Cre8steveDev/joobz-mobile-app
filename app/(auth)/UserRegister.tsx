@@ -23,6 +23,7 @@ import LoadingScreen from '@/components/ui/LoadingScreen';
 import ValidateUserRegistrationForm from '@/lib/validateRegistrationForm';
 import OTPAuthScreen from '@/components/ui/forms/OTPAuthScreen';
 import hideEmail from '@/lib/hideEmailAddress';
+import { RegisterData } from '@/types/global';
 
 const UserRegistration = () => {
   const router = useRouter();
@@ -36,7 +37,10 @@ const UserRegistration = () => {
     email: '',
     password: '',
     phoneNumber: '',
-    stateOfResidence: 'Nil',
+    category: 'N/A',
+    state: 'Nil',
+    country: 'Nigeria',
+    displayName: 'N/A',
   });
 
   // Handle Login of User
@@ -44,10 +48,10 @@ const UserRegistration = () => {
     setLoading(true);
     const isValid = ValidateUserRegistrationForm(formData);
 
-    // if (!isValid) {
-    //   setLoading(false);
-    //   return;
-    // }
+    if (!isValid) {
+      setLoading(false);
+      return;
+    }
     console.log('The Form Data: ', formData);
 
     // setTimeout(() => setLoading(false), 5000);
@@ -141,10 +145,10 @@ const UserRegistration = () => {
             <DropdownSelect
               options={nigerianStates}
               label="State of Residence"
-              selectedValue={formData.stateOfResidence}
+              selectedValue={formData.state}
               icon={<Ionicons name="location" size={24} color={Colors.gray} />}
               onValueChange={(text) =>
-                setFormData((prev) => ({ ...prev, stateOfResidence: text }))
+                setFormData((prev) => ({ ...prev, state: text }))
               }
             />
           </View>

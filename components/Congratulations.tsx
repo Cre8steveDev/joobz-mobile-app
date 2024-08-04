@@ -13,7 +13,7 @@ import CongratulationsPic from '@/assets/images/congratulations.png';
 import Logo from '@/assets/images/big-logo-white.png';
 import { StatusBar } from 'expo-status-bar';
 import Colors from '@/constants/Colors';
-import { useFocusEffect, useRouter } from 'expo-router';
+// import { useFocusEffect, useRouter } from 'expo-router';
 
 type CongratulationsCompType = {
   miniHeading: string;
