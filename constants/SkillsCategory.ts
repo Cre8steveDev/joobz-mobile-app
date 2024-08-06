@@ -8,7 +8,7 @@ const serviceTypes = [
   { label: 'House Cleaning', value: 'House Cleaning' },
   { label: 'Gardening and Landscaping', value: 'Gardening and Landscaping' },
   { label: 'Tutoring', value: 'Tutoring' },
-  { label: 'Personal Training', value: 'Personal Training' },
+  { label: 'Fitness Trainer', value: 'Fitness Trainer' },
   { label: 'Catering Services', value: 'Catering Services' },
   { label: 'Photography', value: 'Photography' },
   { label: 'Graphic Design', value: 'Graphic Design' },
@@ -17,13 +17,9 @@ const serviceTypes = [
   { label: 'Makeup Artist', value: 'Makeup Artist' },
   { label: 'Event Planning', value: 'Event Planning' },
   { label: 'Pet Grooming', value: 'Pet Grooming' },
-  { label: 'Massage Therapy', value: 'Massage Therapy' },
   { label: 'Home Painting', value: 'Home Painting' },
-  { label: 'Appliance Repair', value: 'Appliance Repair' },
   { label: 'Car Washing', value: 'Car Washing' },
-  { label: 'Mobile Phone Repair', value: 'Mobile Phone Repair' },
   { label: 'Tailoring', value: 'Tailoring' },
-  { label: 'Locksmith Services', value: 'Locksmith Services' },
 ];
 
 export default serviceTypes;

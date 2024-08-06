@@ -113,6 +113,27 @@ export default function UserTabLayout() {
           ),
         }}
       />
+
+      <Tabs.Screen
+        name="ServiceProviderDetails"
+        options={{
+          tabBarButton: () => null,
+          tabBarIconStyle: { display: 'none' },
+          tabBarLabelStyle: { display: 'none' },
+        }}
+      />
+
+      <Tabs.Screen
+        name="ServiceCategoryDetail"
+        options={{
+          tabBarButton: () => null,
+          tabBarIconStyle: { display: 'none' },
+          tabBarLabelStyle: { display: 'none' },
+        }}
+      />
     </Tabs>
   );
 }
+
+// ServiceProviderDetails
+// ServiceCategoryDetail

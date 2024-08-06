@@ -1,7 +1,6 @@
 // hooks/useAuthRedirect.ts
 import { useState, useEffect } from 'react';
 import useTypedSelector from './useTypedSelector';
-import { Redirect } from 'expo-router';
 
 export const useAuthRedirect = () => {
   const { user } = useTypedSelector((state) => state.auth);
@@ -19,6 +18,7 @@ export const useAuthRedirect = () => {
 
   return {
     isAuthenticated: !!user,
+    user,
     userRole: user?.ROLE,
     redirect: redirectPath,
   };
