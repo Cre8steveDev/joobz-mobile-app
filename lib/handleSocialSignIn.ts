@@ -1,14 +1,24 @@
+import { Alert } from 'react-native';
+
+// Coming Soon
+const comingSoon = () => {
+  Alert.alert(
+    'Feature coming soon. 😊',
+    "I'm yet to implement the social signin for the app. But these will follow after the core features have been implemented."
+  );
+};
+
 // Define Function to handle Logins
 const handleGoogleLogin = () => {
-  console.warn('Google Login Clicked');
+  comingSoon();
 };
 
 const handleFacebookLogin = () => {
-  console.warn('Facebook Login Clicked');
+  comingSoon();
 };
 
 const handleTwitterLogin = () => {
-  console.warn('Twitter Login Clicked');
+  comingSoon();
 };
 
 export { handleFacebookLogin, handleGoogleLogin, handleTwitterLogin };

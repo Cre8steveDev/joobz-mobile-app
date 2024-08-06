@@ -19,13 +19,16 @@ import SocialLogins from '@/components/ui/SocialLogins';
 import DropdownSelect from '@/components/ui/DropDownSelect';
 
 import nigerianStates from '@/constants/NigerianStates';
+import serviceTypes from '@/constants/SkillsCategory';
+
 import LoadingScreen from '@/components/ui/LoadingScreen';
 import ValidateUserRegistrationForm from '@/lib/validateRegistrationForm';
 import OTPAuthScreen from '@/components/ui/forms/OTPAuthScreen';
-import hideEmail from '@/lib/hideEmailAddress';
-import { RegisterData } from '@/types/global';
 
-const UserRegistration = () => {
+import { RegisterData } from '@/types/global';
+import HandleEmailRegistration from '@/lib/handleEmailRegistration';
+
+const FreelanceRegistration = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [registrationSuccess, setRegistrationSuccess] = useState(false);
@@ -40,26 +43,32 @@ const UserRegistration = () => {
     category: 'N/A',
     state: 'Nil',
     country: 'Nigeria',
-    displayName: 'N/A',
+    displayName: '',
   });
 
   // Handle Login of User
   const handleEmailAndPasswordRegistration = async () => {
     setLoading(true);
-    const isValid = ValidateUserRegistrationForm(formData);
+    setShowOTPModal(false);
+    setRegistrationSuccess(false);
+
+    // Mini Validation of user Field
+    const isValid = ValidateUserRegistrationForm(formData, 'freelancer');
 
     if (!isValid) {
       setLoading(false);
       return;
     }
     console.log('The Form Data: ', formData);
+    const registration = await HandleEmailRegistration(formData, 'Freelancer');
+    console.log('After REgistration function.');
 
-    // setTimeout(() => setLoading(false), 5000);
-    setTimeout(() => {
-      setLoading(false);
-      setRegistrationSuccess(true);
+    if (registration.success) {
       setShowOTPModal(true);
-    }, 5000);
+      setRegistrationSuccess(true);
+    }
+
+    setLoading(false);
   };
 
   // Return JSX to view
@@ -86,7 +95,7 @@ const UserRegistration = () => {
           </Text>
           <Text style={styles.subheading}>
             You're creating a{' '}
-            <Text style={styles.subheadingBold}>User Account</Text>
+            <Text style={styles.subheadingBold}>Freelancer Account</Text>
           </Text>
 
           {/* Define Form Inputs */}
@@ -103,6 +112,20 @@ const UserRegistration = () => {
               children={
                 <Ionicons name="person" size={24} color={Colors.gray} />
               }
+            />
+          </View>
+
+          {/* Display Name  */}
+          <View style={styles.inputBound}>
+            <Text style={styles.inputLabel}>Display Name:</Text>
+            <CustomTextInput
+              value={formData.displayName}
+              setValue={(text: string) =>
+                setFormData((prev) => ({ ...prev, displayName: text }))
+              }
+              keyBoardType="name-phone-pad"
+              returnType="done"
+              children={<Ionicons name="shirt" size={24} color={Colors.gray} />}
             />
           </View>
 
@@ -153,11 +176,26 @@ const UserRegistration = () => {
             />
           </View>
 
+          {/* Services  Category  */}
+          <View style={styles.inputBound}>
+            <Text style={styles.inputLabel}>Service Category:</Text>
+            <DropdownSelect
+              options={serviceTypes}
+              label="State of Residence"
+              selectedValue={formData.category!}
+              icon={<Ionicons name="briefcase" size={24} color={Colors.gray} />}
+              onValueChange={(text) =>
+                setFormData((prev) => ({ ...prev, category: text }))
+              }
+            />
+          </View>
+
           {/* Phone Number */}
           <View style={styles.inputBound}>
             <Text style={styles.inputLabel}>Phone Number:</Text>
             <CustomTextInput
               value={formData.phoneNumber}
+              placeholder="e.g. 08123456789"
               setValue={(text: string) =>
                 setFormData((prev) => ({ ...prev, phoneNumber: text }))
               }
@@ -210,9 +248,10 @@ const UserRegistration = () => {
           {/* OTP Verification Screen */}
           {registrationSuccess && (
             <OTPAuthScreen
-              userEmail={hideEmail(formData.email)}
+              userEmail={formData.email}
               showOTPModal={showOTPModal}
               setShowOTPModal={setShowOTPModal}
+              type="Freelancer"
             />
           )}
         </ScrollView>
@@ -225,7 +264,7 @@ const UserRegistration = () => {
  
  */
 
-export default UserRegistration;
+export default FreelanceRegistration;
 
 const styles = StyleSheet.create({
   container: {

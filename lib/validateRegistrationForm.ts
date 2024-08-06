@@ -95,6 +95,24 @@ const validateRegistrationForm = (
     }
   }
 
+  // Display Name Validation
+  if (type === 'freelancer') {
+    if (formData.displayName === '') {
+      useToast('Please provide a display name.', 'red');
+      return false;
+    }
+
+    if (formData.displayName.trim().includes(' ')) {
+      useToast('Display Name cannot contain spaces', 'red');
+      return false;
+    }
+
+    if (formData.displayName.trim().length < 6) {
+      useToast('Provide a valid display name of at least 6 characters.', 'red');
+      return false;
+    }
+  }
+
   // Phone number validation
   const phoneRegex = /^[0-9]{11}$/; // Assumes Nigerian phone numbers (11 digits)
   if (!phoneRegex.test(formData.phoneNumber.trim())) {

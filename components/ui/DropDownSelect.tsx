@@ -1,4 +1,5 @@
 import Colors from '@/constants/Colors';
+import { Ionicons } from '@expo/vector-icons';
 import { StatusBar } from 'expo-status-bar';
 import React, { ReactNode, useState } from 'react';
 import {
@@ -8,6 +9,7 @@ import {
   Modal,
   FlatList,
   StyleSheet,
+  Pressable,
 } from 'react-native';
 
 type Option = {
@@ -45,7 +47,17 @@ const DropdownSelect = ({
         setModalVisible(false);
       }}
     >
-      <Text style={styles.optionText}>{item.label}</Text>
+      <Text
+        style={[
+          styles.optionText,
+          selectedValue === item.value && { color: Colors.primary },
+        ]}
+      >
+        {item.label}
+      </Text>
+      {selectedValue === item.value && (
+        <Ionicons name="checkmark" size={24} color={Colors.primary} />
+      )}
     </TouchableOpacity>
   );
 
@@ -70,7 +82,10 @@ const DropdownSelect = ({
         onRequestClose={() => setModalVisible(false)}
       >
         <StatusBar backgroundColor="rgba(0, 0, 0, 0.7)" />
-        <View style={styles.modalContainer}>
+        <Pressable
+          style={styles.modalContainer}
+          onPress={() => setModalVisible(false)}
+        >
           <View style={styles.modalContent}>
             <FlatList
               data={options}
@@ -78,7 +93,7 @@ const DropdownSelect = ({
               keyExtractor={(item) => item.value}
             />
           </View>
-        </View>
+        </Pressable>
       </Modal>
     </View>
   );
@@ -123,6 +138,8 @@ const styles = StyleSheet.create({
     padding: 15,
     borderBottomWidth: 1,
     borderBottomColor: Colors.neutral,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
 
   optionText: {

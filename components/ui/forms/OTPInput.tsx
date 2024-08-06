@@ -4,6 +4,7 @@ import { View, TextInput, StyleSheet, Dimensions } from 'react-native';
 
 interface OTPInputProps {
   length?: number;
+  otpValue: string;
   onOTPChange: (otp: string) => void;
   containerStyle?: object;
   inputStyle?: object;
@@ -16,6 +17,7 @@ const OTPInput: React.FC<OTPInputProps> = ({
   containerStyle = {},
   inputStyle = {},
   filledInputStyle = {},
+  otpValue,
 }) => {
   const [otp, setOTP] = useState<string[]>(Array(length).fill(''));
   const inputRefs = useRef<TextInput[]>([]);
@@ -23,6 +25,12 @@ const OTPInput: React.FC<OTPInputProps> = ({
   useEffect(() => {
     inputRefs.current = inputRefs.current.slice(0, length);
   }, [length]);
+
+  useEffect(() => {
+    if (otpValue === '') {
+      setOTP(Array(length).fill(''));
+    }
+  }, [otpValue]);
 
   const handleChange = (text: string, index: number) => {
     const newOTP = [...otp];

@@ -1,3 +1,4 @@
+import { TAppState } from '@/types/global';
 import { createSlice } from '@reduxjs/toolkit';
 
 // Initial appState shape

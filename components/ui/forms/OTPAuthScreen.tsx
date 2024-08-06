@@ -86,6 +86,8 @@ const OTPAuthScreen = ({
 
   //   Re-request new OTP to mail
   const resendOTPCode = async () => {
+    setOTPVALUE('');
+    setOtpError(false);
     try {
       const response = await API.post('/api/auth/renew-otp', {
         userType: type,
@@ -97,7 +99,8 @@ const OTPAuthScreen = ({
       }
     } catch (error) {
       console.log(error);
-      useToast('Error Requesting New OTP. Try again later.');
+      setOtpError(true);
+      setOtpMessage('Error generating a new OTP. Contact Admin.');
     }
 
     setTriggerResend((prev) => ++prev);
@@ -126,6 +129,7 @@ const OTPAuthScreen = ({
               {/* Input Button */}
               <View style={{ width: '100%' }}>
                 <OTPInput
+                  otpValue={OTPValue}
                   length={5}
                   onOTPChange={(text: string) => setOTPVALUE(text)}
                   containerStyle={{ marginTop: 20 }}
@@ -239,6 +243,6 @@ const styles = StyleSheet.create({
   otpErrorMessage: {
     color: 'red',
     textAlign: 'center',
-    marginHorizontal: 5,
+    marginVertical: 6,
   },
 });

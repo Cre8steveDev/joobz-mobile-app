@@ -1,7 +1,9 @@
+import { TAuthState } from '@/types/global';
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState: TAuthState = {
   user: null,
+  auth: null,
   firstTimer: true,
 };
 
@@ -10,13 +12,21 @@ export const authSlice = createSlice({
   initialState,
   reducers: {
     loginSuccess: (state, action) => {
-      state.user = action.payload;
+      state.user = action.payload.user;
+      state.auth = action.payload.auth;
+
       if (state.firstTimer) {
         state.firstTimer = false;
       }
     },
+
+    refreshToken: (state, action) => {
+      state.auth = action.payload.auth;
+    },
+
     logOut: (state) => {
       state.user = null;
+      state.auth = null;
     },
   },
 });

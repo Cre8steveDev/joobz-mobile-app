@@ -4,7 +4,8 @@ type TAppState = {
 };
 
 type TAuthState = {
-  user: null | any;
+  user: null | LoggedInUser | LoggedInFreelancer;
+  auth: { token: string; tokenExpiry: number } | null;
   firstTimer: boolean;
 };
 
@@ -19,8 +20,45 @@ type RegisterData = {
   country: string;
 };
 
-type LoggedInUser = {};
-type LoggedInFreelancer = {};
+export type LoginData = {
+  email: string;
+  password: string;
+};
+
+export type LoggedInUser = {
+  _id: string;
+  fullName: string;
+  profilePicture: string;
+  wallet: string;
+  emailVerified: boolean;
+  ROLE: string;
+  location: {
+    country: string;
+    state: string;
+    latitude: number;
+    longitude: number;
+    latitudeDelta: number;
+    longitudeDelta: number;
+  };
+};
+
+export type LoggedInFreelancer = {
+  _id: string;
+  fullName: string;
+  displayName: string;
+  profilePicture: string;
+  wallet: string;
+  emailVerified: boolean;
+  ROLE: string;
+  location: {
+    country: string;
+    state: string;
+    latitude: number;
+    longitude: number;
+    latitudeDelta: number;
+    longitudeDelta: number;
+  };
+};
 
 export type FullUser = {
   _id: string;
@@ -32,7 +70,14 @@ export type FullUser = {
   dateJoined: Date;
   lastLogin: Date;
   isActive: boolean;
-  location: { country: string; state: string };
+  location: {
+    country: string;
+    state: string;
+    latitude: number;
+    longitude: number;
+    latitudeDelta: number;
+    longitudeDelta: number;
+  };
   languages: string[];
   companyName?: string;
   industry: string;
@@ -65,7 +110,14 @@ export type FullFreelancer = {
   dateJoined: Date;
   lastLogin: Date;
   isActive: boolean;
-  location: { country: string; state: string };
+  location: {
+    country: string;
+    state: string;
+    latitude: number;
+    longitude: number;
+    latitudeDelta: number;
+    longitudeDelta: number;
+  };
   languages: string[];
   skills: string[];
   hourlyRate: number;

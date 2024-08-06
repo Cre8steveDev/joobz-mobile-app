@@ -5,13 +5,13 @@ import Colors from '@/constants/Colors';
 import { Platform } from 'react-native';
 import { useSelector } from 'react-redux';
 
-export default function TabLayout() {
+export default function FreelanceTabLayout() {
   //  Return to Login Page if user is not authenticated
   //@ts-ignore
   const auth = useSelector((state) => state.auth);
 
   if (!auth.user) {
-    return <Redirect href="/(auth)/Signin" />;
+    return <Redirect href="/(auth)/Login" />;
   }
 
   // Return Tab Layout
@@ -26,12 +26,7 @@ export default function TabLayout() {
           paddingHorizontal: 20,
           marginHorizontal: 'auto',
           backgroundColor: Colors.white,
-          // marginBottom: 10,
-          // borderWidth: 3,
-          // borderRadius: 20,
-          //   borderColor: Colors.primaryYellow,
-          //   borderTopColor: Colors.primaryYellow,
-          //   backgroundColor: Colors.secondaryBlack,
+
           ...Platform.select({
             ios: {
               shadowColor: '#000',
@@ -92,7 +87,7 @@ export default function TabLayout() {
       />
 
       <Tabs.Screen
-        name="Profile"
+        name="FreelanceProfile"
         options={{
           title: 'Profile',
           headerShown: false,

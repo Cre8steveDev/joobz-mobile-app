@@ -39,12 +39,12 @@ const HandleEmailRegistration = async (
       message: 'Account Created Successfully. Verify OTP.',
     };
   } catch (error: any) {
-    console.log(error.message);
-    console.log(error);
     if (error?.message?.includes('Network Error')) {
       useToast('Network Error Occurred.', 'red', 'white');
     } else if (error?.message?.includes('400')) {
       useToast('Invalid Form Data. Please check again.', 'red', 'white');
+    } else if (error?.message?.includes('409')) {
+      useToast('Email Address or User Name already taken.', 'red', 'white');
     } else {
       useToast('An Unknown Error Occured. Try Again.', 'red', 'white');
     }

@@ -1,5 +1,4 @@
 import {
-  Pressable,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -10,23 +9,27 @@ import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import Colors from '@/constants/Colors';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useSelector } from 'react-redux';
-import { Redirect, useRouter } from 'expo-router';
+import { useRouter } from 'expo-router';
 import Button from '@/components/ui/buttons/Button';
 
 // Import Icons
 import { Ionicons, FontAwesome6 } from '@expo/vector-icons';
 import Onboarding from '@/components/Onboarding';
 
+import { Redirect } from 'expo-router';
+import { useAuthRedirect } from '@/hooks/useSignedInRedirect';
+
+// Define Component
 const Index = () => {
-  // @ts-ignore
-  const auth = useSelector((state) => state.auth as TAuthState);
+  // Instantiate router.
   const router = useRouter();
 
-  if (!auth.firstTimer) {
-    return <Redirect href={'/(tabs)/Home'} />;
-  }
+  // Check if user is already logged in and state is saved
+  // if Yes, redirect to the appropriate home screen.
+  const { isAuthenticated, redirect } = useAuthRedirect();
+  if (isAuthenticated) return <Redirect href={redirect!} />;
 
+  // Return JSX
   return (
     <SafeAreaView style={styles.safeArea}>
       <StatusBar style="dark" translucent />
@@ -58,7 +61,7 @@ const Index = () => {
                 style={{ marginTop: -4 }}
               />
             }
-            text="Find A Professional"
+            text="Register To Find Help"
             bgColor={Colors.primary}
             textColor={Colors.white}
             extraStyles={{

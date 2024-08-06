@@ -1,5 +1,10 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { configureStore } from '@reduxjs/toolkit';
 import { combineReducers } from 'redux';
+
+// Import your reducers here
+import authReducer from './authSlice';
+import appStateReducer from './appStateSlice';
 
 // This configuration tells Redux Toolkit's serializable state check middleware to ignore these Redux Persist actions, which are not serializable by default.
 // Including these actions helps prevent warnings or errors related to non-serializable values in Redux state or actions, which can occur when using Redux Persist.
@@ -13,12 +18,6 @@ import {
   PURGE,
   REGISTER,
 } from 'redux-persist';
-
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
-// Import your reducers here
-import authReducer from './authSlice';
-import appStateReducer from './appStateSlice';
 
 const persistConfig = {
   key: 'root',
@@ -42,5 +41,7 @@ export const store = configureStore({
       },
     }),
 });
-
 export const persistor = persistStore(store);
+
+// Define RootState type
+export type RootState = ReturnType<typeof rootReducer>;
