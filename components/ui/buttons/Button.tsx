@@ -1,4 +1,10 @@
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  ViewStyle,
+} from 'react-native';
 import React from 'react';
 
 // Define Types
@@ -9,7 +15,7 @@ type ButtonProp = {
   bgColor?: string;
   onPress: () => void;
   disabled?: boolean;
-  extraStyles?: any;
+  extraStyles?: ViewStyle;
 };
 
 const Button = ({

@@ -22,10 +22,13 @@ const TopRatedProfessionals = () => {
 
   // Fetch Top rated Professionals from server
   useEffect(() => {
+    setErrorLoading(false);
     API.get('/get-professionals')
       .then((res) => {
         const topPros = res.data.topRatedPros as ProfessionalCardType[];
         setProfessionals(topPros);
+
+        if (!topPros) throw new Error('An error occured');
       })
       .catch((error: any) => {
         useToast('Sorry, unable to load featured professionals.');
@@ -136,7 +139,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     justifyContent: 'center',
     alignItems: 'center',
-    color: Colors.gray,
+    backgroundColor: Colors.neutral,
   },
   errorText: {
     textAlign: 'center',

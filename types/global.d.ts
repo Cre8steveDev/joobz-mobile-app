@@ -104,6 +104,7 @@ export type FullFreelancer = {
   fullName: string;
   displayName: string;
   email: string;
+  category: string;
   password: string;
   phoneNumber: string;
   profilePicture: string;

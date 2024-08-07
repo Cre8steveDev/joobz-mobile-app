@@ -64,8 +64,8 @@ const ServiceCategoryDetailPage = () => {
             useToast(`${user.location.state}`);
             setNoOneNearUser(isNearUser);
           }
-          console.log(data);
         } else {
+          setCategoryProfessionals([]);
         }
 
         setLoading(false);
@@ -117,8 +117,8 @@ const ServiceCategoryDetailPage = () => {
           <View style={styles.noOneContainer}>
             <Text style={styles.noOneHeading}>Oops. 🤔</Text>
             <Text style={styles.noOneSubtext}>
-              No professionals near you. Here are others from different
-              locations below.
+              No professionals near you. Here are results from other locations
+              below.
             </Text>
           </View>
         )}
@@ -127,6 +127,7 @@ const ServiceCategoryDetailPage = () => {
         <FlatList
           data={categoryProfessionals}
           initialNumToRender={10}
+          contentContainerStyle={{ gap: 13 }}
           ListEmptyComponent={
             <EmptyResult
               heading="Oops...No one offering that Service yet."
@@ -196,10 +197,27 @@ const styles = StyleSheet.create({
   secondaryContainer: {
     padding: 20,
   },
-  infoText: {},
+  infoText: {
+    textAlign: 'center',
+  },
 
   // No one near styles
-  noOneContainer: {},
-  noOneHeading: {},
-  noOneSubtext: {},
+  noOneContainer: {
+    marginVertical: 10,
+    backgroundColor: Colors.gray,
+    borderRadius: 10,
+    padding: 8,
+  },
+  noOneHeading: {
+    textAlign: 'center',
+    fontFamily: 'PoppinsExtraBold',
+    fontSize: 40,
+    color: 'white',
+    marginBottom: -4,
+  },
+  noOneSubtext: {
+    textAlign: 'center',
+    color: 'white',
+    paddingHorizontal: 15,
+  },
 });

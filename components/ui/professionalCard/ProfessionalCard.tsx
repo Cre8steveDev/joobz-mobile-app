@@ -51,7 +51,10 @@ const ProfessionalCard = ({
           >{`${location.state}, ${location.country}`}</Text>
 
           {/* Rating Stars */}
-          <Text>{'⭐'.repeat(averageRating)}</Text>
+          <Text>
+            Ratings:
+            {'⭐'.repeat(averageRating)} <Text>{` (${averageRating})`}</Text>
+          </Text>
         </View>
 
         <Text style={styles.linkBtn}>View Profile</Text>

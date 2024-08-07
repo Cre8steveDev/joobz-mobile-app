@@ -60,6 +60,7 @@ const SponsoredAds = () => {
       });
   }, []);
 
+  if (!currentAd || (ads && ads.length === 0)) return null;
   // JSX
   return (
     <TouchableOpacity style={styles.container}>
