@@ -1,31 +1,30 @@
-import { Button, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { logOut } from '@/providers/redux/authSlice';
 import LoadingScreen from '@/components/ui/LoadingScreen';
-import { useAuthRedirect } from '@/hooks/useSignedInRedirect';
-import { Redirect } from 'expo-router';
+import { useLocalSearchParams, usePathname } from 'expo-router';
+import { StatusBar } from 'expo-status-bar';
+import Colors from '@/constants/Colors';
 
-const Profile = () => {
-  const dispatch = useDispatch();
-  const [loading, setLoading] = useState(false);
+const ServiceProviderDetails = () => {
+  const [loading, setLoading] = useState(true);
+  const pathname = usePathname();
 
-  //  Return to Login Page if user is not authenticated
-  const { isAuthenticated } = useAuthRedirect();
-  if (!isAuthenticated) return <Redirect href={'/(auth)/Login'} />;
+  console.log('PathName: ', pathname);
+  const param = useLocalSearchParams();
+  console.log('Id of the selected Professional: ', param);
 
   if (loading) {
     return <LoadingScreen text="Loading..." />;
   }
   return (
     <View>
-      <Text>User Profile</Text>
-      <Button onPress={() => dispatch(logOut())} title="Log Out" />
+      <StatusBar style="light" backgroundColor={Colors.primary} animated />
+      <Text>User ServiceProviderDetails</Text>
     </View>
   );
 };
 
-export default Profile;
+export default ServiceProviderDetails;
 
 const styles = StyleSheet.create({
   container: {

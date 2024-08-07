@@ -1,48 +1,81 @@
-import { StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native';
-import React from 'react';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
 import ServicesGrid from '@/constants/ServicesGrid';
 import { useRouter } from 'expo-router';
 import { ExpoRouter } from 'expo-router/types/expo-router';
 import Colors from '@/constants/Colors';
-// import { Image } from 'expo-image';
-
-type ProfessionalCardType = {
-  image: any;
-  link: string;
-  label: string;
-  router: ExpoRouter.Router;
-};
+import { Image } from 'expo-image';
+import SkeletonLoader from '../SkeletonLoader';
+import { API } from '@/constants/BaseUrl';
+import useToast from '@/components/Toast';
+import Logo from '@/assets/images/icon.png';
+import { ProfessionalCardType } from '@/types/global';
+import ProfessionalCard from '../professionalCard/ProfessionalCard';
 
 const TopRatedProfessionals = () => {
   const router = useRouter();
+  const [loading, setLoading] = useState(true);
+  const [errorLoading, setErrorLoading] = useState(false);
+  const [professionals, setProfessionals] = useState<ProfessionalCardType[]>(
+    []
+  );
+
+  // Fetch Top rated Professionals from server
+  useEffect(() => {
+    API.get('/get-professionals')
+      .then((res) => {
+        const topPros = res.data.topRatedPros as ProfessionalCardType[];
+        setProfessionals(topPros);
+      })
+      .catch((error: any) => {
+        useToast('Sorry, unable to load featured professionals.');
+        setErrorLoading(true);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, []);
+
+  // Return JSX
   return (
     <View style={styles.mainContainer}>
-      <Text style={styles.heading}>Top Rated Professionals</Text>
-      {/* Map and Create the Services  */}
-      <View style={styles.categoryContainer}></View>
+      <Text style={styles.heading}>Top 3 Rated Professionals</Text>
+      {/* Skeleton for loading  */}
+      {loading && <SkeletonLoader bgColor="gray" height={100} width={'100%'} />}
+
+      {/* If finished loading and posts found */}
+      {!loading && professionals.length > 0 && (
+        <View style={styles.cardContainer}>
+          {professionals.map((data, index) => (
+            <ProfessionalCard
+              key={index}
+              index={index}
+              profilePicture={data.profilePicture}
+              userId={data._id!}
+              fullName={data.fullName}
+              category={data.category}
+              averageRating={data.averageRating}
+              location={data.location}
+              router={router}
+            />
+          ))}
+        </View>
+      )}
+
+      {errorLoading && (
+        <View style={styles.errorContainer}>
+          <Text style={styles.errorText}>Unable to Retrive Data. </Text>
+        </View>
+      )}
     </View>
   );
 };
-
-const ProfessionalCard = ({
-  image,
-  link,
-  label,
-  router,
-}: ProfessionalCardType) => {
-  return (
-    <TouchableOpacity onPress={() => router.push(link)} style={styles.card}>
-      <Image source={image} style={styles.cardImage} />
-      <Text style={styles.cardLabel}>{label}</Text>
-    </TouchableOpacity>
-  );
-};
-
 export default TopRatedProfessionals;
 
 const styles = StyleSheet.create({
   mainContainer: {
     paddingTop: 5,
+    marginBottom: 20,
     width: '100%',
   },
   heading: {
@@ -51,41 +84,62 @@ const styles = StyleSheet.create({
     fontFamily: 'PoppinsExtraBold',
     color: Colors.gray,
   },
-  categoryContainer: {
+  cardContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
     flexWrap: 'wrap',
     width: '100%',
-    gap: 8,
+    gap: 10,
+    paddingHorizontal: 15,
   },
-  card: {
-    maxWidth: '20%',
-    overflow: 'hidden',
-    width: 100,
-    alignItems: 'center',
-    borderRadius: 8,
-    padding: 3,
-    backgroundColor: Colors.neutral,
-  },
-  cardImage: {
-    width: '100%',
-    height: 60,
 
-    objectFit: 'contain',
+  // Styles for the professional card start here
+  card: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderRadius: 12,
+    width: '100%',
+    height: 120,
+    padding: 10,
+    gap: 15,
   },
-  cardLabel: {
-    textAlign: 'center',
+
+  cardImage: {
+    width: 90,
+    height: '100%',
+    borderRadius: 15,
+    objectFit: 'cover',
+  },
+
+  detailsContainer: {
+    width: '65%',
+  },
+
+  proName: {
     fontSize: 12,
   },
-});
+  category: {
+    fontFamily: 'PoppinsExtraBold',
+    color: Colors.dark,
+    fontSize: 18,
+    marginBottom: -7,
+  },
+  location: {},
 
-/*** 
-        const handleNavigation = () => {
-    router.push({
-      pathname: '/screenName',
-      params: {
-        param1: 'value with spaces',
-      },
-    });
-  };
- */
+  rating: {},
+
+  linkBtn: {
+    textAlign: 'right',
+    fontSize: 11,
+  },
+  errorContainer: {
+    borderRadius: 15,
+    justifyContent: 'center',
+    alignItems: 'center',
+    color: Colors.gray,
+  },
+  errorText: {
+    textAlign: 'center',
+    color: 'white',
+  },
+});

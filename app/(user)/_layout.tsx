@@ -1,29 +1,54 @@
-import { Redirect, Tabs } from 'expo-router';
+import { Redirect, Tabs, usePathname } from 'expo-router';
 import { Ionicons, Entypo, FontAwesome } from '@expo/vector-icons';
 
 import Colors from '@/constants/Colors';
-import { Platform } from 'react-native';
+import { Platform, StatusBar } from 'react-native';
 import { useSelector } from 'react-redux';
 import { useAuthRedirect } from '@/hooks/useSignedInRedirect';
+import { useEffect } from 'react';
 
 export default function UserTabLayout() {
+  const pathname = usePathname();
+  const isOffTab =
+    pathname === '/ServiceCategoryDetail' ||
+    pathname === '/ServiceProviderDetails';
+
   //  Return to Login Page if user is not authenticated
   const { isAuthenticated } = useAuthRedirect();
 
   if (!isAuthenticated) return <Redirect href={'/(auth)/Login'} />;
+
+  // Setup Status Bar color change
+
+  // useEffect(() => {
+  //   const updateStatusBar = () => {
+  //     if (pathname === '/ServiceCategoryDetail') {
+  //       StatusBar.setBarStyle('dark-content');
+  //       StatusBar.setBackgroundColor(Colors.white);
+  //     } else if (pathname.startsWith('/ServiceProviderDetails')) {
+  //       StatusBar.setBarStyle('dark-content');
+  //       StatusBar.setBackgroundColor(Colors.white);
+  //     } else if (pathname === '/Home') {
+  //       StatusBar.setBarStyle('light-content');
+  //       StatusBar.setBackgroundColor(Colors.primary);
+  //     }
+  //   };
+
+  //   updateStatusBar();
+  // }, [pathname]);
 
   // Return Tab Layout
   return (
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: Colors.primary,
-        tabBarInactiveTintColor: Colors.gray,
+        tabBarInactiveTintColor: isOffTab ? Colors.neutral : Colors.gray,
         tabBarStyle: {
           height: 65,
           width: '100%',
           paddingHorizontal: 20,
           marginHorizontal: 'auto',
-          backgroundColor: Colors.white,
+          backgroundColor: isOffTab ? Colors.primary : Colors.white,
 
           ...Platform.select({
             ios: {
@@ -117,6 +142,7 @@ export default function UserTabLayout() {
       <Tabs.Screen
         name="ServiceProviderDetails"
         options={{
+          headerShown: false,
           tabBarButton: () => null,
           tabBarIconStyle: { display: 'none' },
           tabBarLabelStyle: { display: 'none' },
@@ -126,6 +152,7 @@ export default function UserTabLayout() {
       <Tabs.Screen
         name="ServiceCategoryDetail"
         options={{
+          headerShown: false,
           tabBarButton: () => null,
           tabBarIconStyle: { display: 'none' },
           tabBarLabelStyle: { display: 'none' },

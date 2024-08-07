@@ -6,4 +6,6 @@ export default {
   dark: '#161515',
   white: '#F6F6F6',
   gray: '#858484',
+  oddCard: '#c1efd1',
+  evenCard: '#eaeaf8',
 };

@@ -28,6 +28,10 @@ import OTPAuthScreen from '@/components/ui/forms/OTPAuthScreen';
 import { RegisterData } from '@/types/global';
 import HandleEmailRegistration from '@/lib/handleEmailRegistration';
 
+const sortedServiceTypes = serviceTypes.sort((a, b) =>
+  a.label.localeCompare(b.label)
+);
+
 const FreelanceRegistration = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -59,9 +63,8 @@ const FreelanceRegistration = () => {
       setLoading(false);
       return;
     }
-    console.log('The Form Data: ', formData);
+
     const registration = await HandleEmailRegistration(formData, 'Freelancer');
-    console.log('After REgistration function.');
 
     if (registration.success) {
       setShowOTPModal(true);
@@ -180,7 +183,7 @@ const FreelanceRegistration = () => {
           <View style={styles.inputBound}>
             <Text style={styles.inputLabel}>Service Category:</Text>
             <DropdownSelect
-              options={serviceTypes}
+              options={sortedServiceTypes}
               label="State of Residence"
               selectedValue={formData.category!}
               icon={<Ionicons name="briefcase" size={24} color={Colors.gray} />}

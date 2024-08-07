@@ -189,3 +189,15 @@ declare module '**/*.png';
 declare module '**/*.jpg';
 declare module '**/*.jpeg';
 declare module '**/*.gif';
+
+type ProfessionalCardType = {
+  index: number;
+  profilePicture: string;
+  userId: string;
+  _id?: string;
+  fullName: string;
+  category: string;
+  averageRating: number;
+  location: { state: string; country: string };
+  router: ExpoRouter.Router;
+};

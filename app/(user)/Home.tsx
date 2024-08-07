@@ -33,7 +33,7 @@ const Home = () => {
   // Return the JSX
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar style="light" backgroundColor={Colors.primary} />
+      <StatusBar style="light" backgroundColor={Colors.primary} animated />
 
       <ScrollView>
         <View style={styles.miniDashboard}>
@@ -66,8 +66,6 @@ const Home = () => {
 
         {/* Top Rated Professionals  */}
         <TopRatedProfessionals />
-
-        <Text>Home: The User's Home and Layout</Text>
       </ScrollView>
     </SafeAreaView>
   );

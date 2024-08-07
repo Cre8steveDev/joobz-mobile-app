@@ -23,7 +23,7 @@ const LoadingScreen = ({
   //Return JSX
   return (
     <View style={[styles.container, { backgroundColor: bgColor }]}>
-      <StatusBar style="light" />
+      {/* <StatusBar style="light" backgroundColor={Colors.gray} /> */}
       <ActivityIndicator
         style={[styles.activityIndicator]}
         color={indicatorColor}

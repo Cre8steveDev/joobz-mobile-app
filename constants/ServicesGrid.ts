@@ -20,26 +20,106 @@ import Tailoring from '../assets/services/tailoring.png';
 import Caterer from '../assets/services/caterer.png';
 
 const ServicesGrid = [
-  { link: '', label: 'Plumbing Services', image: Plumbing },
-  { link: '', label: 'Hair Dressing', image: HairDressing },
-  { link: '', label: 'Auto Mechanic', image: AutoMechanic },
-  { link: '', label: 'Bike Delivery Rider', image: BikeDelivery },
-  { link: '', label: 'Carpentry', image: Carpenter },
-  { link: '', label: 'Electrical Services', image: Electrician },
-  { link: '', label: 'House Cleaning', image: HouseCleaning },
-  { link: '', label: 'Gardening', image: Gardening },
-  { link: '', label: 'Tutoring', image: Tutoring },
-  { link: '', label: 'Fitness Trainer', image: FitnessTrainer },
-  { link: '', label: 'Catering Services', image: Caterer },
-  { link: '', label: 'Photography', image: PhotoGrapher },
-  { link: '', label: 'Graphic Design', image: GraphicDesigner },
-  { link: '', label: 'Web Development', image: WebDeveloper },
-  { link: '', label: 'Interior Design', image: InteriorDesign },
-  { link: '', label: 'Event Planning', image: EventPlanning },
-  { link: '', label: 'Pet Grooming', image: PetGrooming },
-  { link: '', label: 'Home Painting', image: HomePainting },
-  { link: '', label: 'Car Washing', image: CarWash },
-  { link: '', label: 'Tailoring', image: Tailoring },
+  {
+    link: `/(user)/ServiceCategoryDetail?category=${'Plumbing Services'}`,
+    label: 'Plumbing Services',
+    image: Plumbing,
+  },
+  {
+    link: `/(user)/ServiceCategoryDetail?category=${'Hair Dressing'}`,
+    label: 'Hair Dressing',
+    image: HairDressing,
+  },
+  {
+    link: `/(user)/ServiceCategoryDetail?category=${'Auto Mechanic'}`,
+    label: 'Auto Mechanic',
+    image: AutoMechanic,
+  },
+  {
+    link: `/(user)/ServiceCategoryDetail?category=${'Bike Delivery Rider'}`,
+    label: 'Bike Delivery Rider',
+    image: BikeDelivery,
+  },
+  {
+    link: `/(user)/ServiceCategoryDetail?category=${'Carpentry'}`,
+    label: 'Carpentry',
+    image: Carpenter,
+  },
+  {
+    link: `/(user)/ServiceCategoryDetail?category=${'Electrical Services'}`,
+    label: 'Electrical Services',
+    image: Electrician,
+  },
+  {
+    link: `/(user)/ServiceCategoryDetail?category=${'House Cleaning'}`,
+    label: 'House Cleaning',
+    image: HouseCleaning,
+  },
+  {
+    link: `/(user)/ServiceCategoryDetail?category=${'Gardening'}`,
+    label: 'Gardening',
+    image: Gardening,
+  },
+  {
+    link: `/(user)/ServiceCategoryDetail?category=${'Tutoring'}`,
+    label: 'Tutoring',
+    image: Tutoring,
+  },
+  {
+    link: `/(user)/ServiceCategoryDetail?category=${'Fitness Trainer'}`,
+    label: 'Fitness Trainer',
+    image: FitnessTrainer,
+  },
+  {
+    link: `/(user)/ServiceCategoryDetail?category=${'Catering Services'}`,
+    label: 'Catering Services',
+    image: Caterer,
+  },
+  {
+    link: `/(user)/ServiceCategoryDetail?category=${'Photography'}`,
+    label: 'Photography',
+    image: PhotoGrapher,
+  },
+  {
+    link: `/(user)/ServiceCategoryDetail?category=${'Graphic Design'}`,
+    label: 'Graphic Design',
+    image: GraphicDesigner,
+  },
+  {
+    link: `/(user)/ServiceCategoryDetail?category=${'Web Development'}`,
+    label: 'Web Development',
+    image: WebDeveloper,
+  },
+  {
+    link: `/(user)/ServiceCategoryDetail?category=${'Interior Design'}`,
+    label: 'Interior Design',
+    image: InteriorDesign,
+  },
+  {
+    link: `/(user)/ServiceCategoryDetail?category=${'Event Planning'}`,
+    label: 'Event Planning',
+    image: EventPlanning,
+  },
+  {
+    link: `/(user)/ServiceCategoryDetail?category=${'Pet Grooming'}`,
+    label: 'Pet Grooming',
+    image: PetGrooming,
+  },
+  {
+    link: `/(user)/ServiceCategoryDetail?category=${'Home Painting'}`,
+    label: 'Home Painting',
+    image: HomePainting,
+  },
+  {
+    link: `/(user)/ServiceCategoryDetail?category=${'Car Washing'}`,
+    label: 'Car Washing',
+    image: CarWash,
+  },
+  {
+    link: `/(user)/ServiceCategoryDetail?category=${'Tailoring'}`,
+    label: 'Tailoring',
+    image: Tailoring,
+  },
 ];
 
 export default ServicesGrid;
