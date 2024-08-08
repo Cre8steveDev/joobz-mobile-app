@@ -48,7 +48,7 @@ export default function UserTabLayout() {
           width: '100%',
           paddingHorizontal: 20,
           marginHorizontal: 'auto',
-          backgroundColor: isOffTab ? Colors.primary : Colors.white,
+          backgroundColor: isOffTab ? Colors.primary : 'white',
 
           ...Platform.select({
             ios: {

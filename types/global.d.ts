@@ -94,6 +94,7 @@ export type FullUser = {
   wallet: ObjectId;
   reviews: any[];
   averageRating: number;
+  invitations: any[];
   createdAt: Date;
   updatedAt: Date;
   __v: number;
@@ -175,6 +176,7 @@ export type FullFreelancer = {
   currentJobs: any[];
   wallet: ObjectId;
   reviews: any[];
+  invitations: any[];
   averageRating: number;
   createdAt: Date;
   updatedAt: Date;
@@ -201,4 +203,41 @@ type ProfessionalCardType = {
   averageRating: number;
   location: { state: string; country: string };
   router: ExpoRouter.Router;
+};
+
+export type FreelanceMarkerData = {
+  longitude: number;
+  latitude: number;
+  _id: string;
+  fullName: string;
+  category: string;
+};
+
+export type UserJob = {
+  title: string;
+  description: string;
+  client: string;
+  category: string;
+  budget: { type: 'fixed' | 'hourly'; amount: number };
+  skills: string[];
+  datePosted: Date;
+  deadline: Date;
+  status: 'open' | 'in-progress' | 'completed' | 'cancelled ';
+  proposals: any[];
+  hiredFreelancer: string;
+  completionDate: Date;
+};
+
+export type Messages = {
+  userId: string;
+  freelancerId: string;
+  title: string; // name of the Freelancer
+  freelancerProfilePhoto: string;
+  invitations: any[];
+  messages: {
+    role: 'User' | 'Freelancer';
+    message: string;
+    date: string;
+    photo: string;
+  }[];
 };

@@ -16,6 +16,8 @@ import Placeholder from '@/assets/images/loading-image.gif';
 import Button from '@/components/ui/buttons/Button';
 import useToast from '@/components/Toast';
 import { Ionicons } from '@expo/vector-icons';
+import BioComponent from '@/components/ui/freelancerProfile/BioComponent';
+import SkillTags from '@/components/ui/freelancerProfile/SkillTags';
 
 /**
  * Service Provider Compnents for the view
@@ -87,17 +89,37 @@ const ServiceProviderDetails = () => {
           {pro.category} | {pro.location.state}, {pro.location.country}
         </Text>
 
-        <Text style={styles.ratingText}>
-          Ratings:
-          {'⭐'.repeat(pro.averageRating)}{' '}
-          <Text>{` (${pro.averageRating})  |  `}</Text>
-          <Text>{` (${pro.reviews.length} Reviews)`}</Text>
-        </Text>
+        {/* Review and Active Status */}
+        <View
+          style={{
+            flexDirection: 'row',
+            gap: 5,
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <Text style={styles.ratingText}>
+            Ratings:
+            {'⭐'.repeat(pro.averageRating)}{' '}
+            <Text>{` (${pro.averageRating})  |  `}</Text>
+            <Text>{` (${pro.reviews.length} Reviews)`}</Text>
+          </Text>
+
+          {pro.isActive ? (
+            <Text style={styles.active}>Active</Text>
+          ) : (
+            <Text style={styles.inactive}>Not Active</Text>
+          )}
+        </View>
       </View>
 
+      {/* Container housing other details */}
       <ScrollView style={styles.scrollContainer}>
         {/* Define the remainder of the UI */}
         <View style={styles.detailsContainer}>
+          {/* Show Bio For User  */}
+          {pro.bio && pro.bio.length > 1 && <BioComponent bio={pro.bio} />}
+
           {/* Buttons Container */}
           <View style={styles.buttonContainer}>
             <Button
@@ -111,7 +133,7 @@ const ServiceProviderDetails = () => {
                 alignItems: 'center',
                 justifyContent: 'center',
                 borderRadius: 6,
-                // width: '40%',
+                width: '48%',
               }}
               children={<Ionicons name="chatbox" color={'white'} size={18} />}
             />
@@ -127,14 +149,20 @@ const ServiceProviderDetails = () => {
                 alignItems: 'center',
                 justifyContent: 'center',
                 borderRadius: 6,
-                // width: '40%',
+                width: '48%',
               }}
               children={
                 <Ionicons name="arrow-forward" color={'white'} size={18} />
               }
             />
           </View>
-          <Text>User ServiceProviderDetails</Text>
+
+          {/* Social Links Component */}
+
+          {/* Show Skills as tags */}
+          {pro.skills && pro.skills.length > 0 && (
+            <SkillTags skills={pro.skills} />
+          )}
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -201,6 +229,23 @@ const styles = StyleSheet.create({
   ratingText: {
     textAlign: 'center',
     fontSize: 14,
+  },
+
+  active: {
+    backgroundColor: Colors.primary,
+    color: 'white',
+    paddingVertical: 1,
+    paddingHorizontal: 5,
+    borderRadius: 5,
+    marginLeft: 3,
+  },
+  inactive: {
+    backgroundColor: Colors.gray,
+    color: 'white',
+    paddingVertical: 1,
+    paddingHorizontal: 5,
+    borderRadius: 5,
+    marginLeft: 3,
   },
 
   buttonContainer: {
