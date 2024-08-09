@@ -71,7 +71,7 @@ const UserProfile = () => {
   return (
     <SafeAreaView style={styles.safeArea}>
       <ScrollView
-        style={{ flex: 1 }}
+        style={{ flex: 1, height: '100%' }}
         contentContainerStyle={{
           marginVertical: 'auto',
         }}
@@ -105,68 +105,77 @@ const UserProfile = () => {
           >{`${user.location.state}, ${user.location.country}`}</Text>
 
           {/* Button to trigger showing full profile details */}
-          <TouchableOpacity onPress={() => setShowFullDetails((prev) => !prev)}>
-            <Text>{showFullDetails ? 'Hide' : 'Show'} Profile Details</Text>
+          <TouchableOpacity
+            onPress={() => setShowFullDetails((prev) => !prev)}
+            style={styles.showDetails}
+          >
+            <Text style={{ textAlign: 'center' }}>
+              {showFullDetails ? 'Hide' : 'Show'} Profile Details
+            </Text>
           </TouchableOpacity>
-
-          {/* Set show full user Mini Dashboard  */}
-          {showFullDetails && fullUser && (
-            <MiniUserDetails fullUser={fullUser} />
-          )}
         </View>
 
+        {/* Set show full user Mini Dashboard  */}
+        {showFullDetails && fullUser && <MiniUserDetails fullUser={fullUser} />}
         {/* Profile ACtions  */}
-        <View style={styles.allActionsContainer}>
-          {/* Update Profile Information */}
-          <ProfileActionComp
-            icon={<AntDesign name="user" size={24} color={Colors.gray} />}
-            textLabel="Update Profile Info"
-            textColor={Colors.gray}
-            bgColor={Colors.white}
-            triggerModal={setShowModal}
-          />
 
-          {/* Fund User Account for Payment */}
-          <ProfileActionComp
-            icon={
-              <MaterialCommunityIcons
-                name="cash-plus"
-                size={24}
-                color={Colors.gray}
-              />
-            }
-            textLabel="Fund Your Account"
-            textColor={Colors.gray}
-            bgColor={Colors.white}
-            triggerModal={setShowModal}
-          />
+        {!showFullDetails && (
+          <View style={styles.allActionsContainer}>
+            {/* Update Profile Information */}
+            <ProfileActionComp
+              icon={<AntDesign name="user" size={24} color={Colors.gray} />}
+              textLabel="Update Profile Info"
+              textColor={Colors.gray}
+              bgColor={Colors.white}
+              triggerModal={setShowModal}
+            />
 
-          {/* Account KYC Verification */}
-          <ProfileActionComp
-            icon={
-              <MaterialCommunityIcons
-                name="cash-plus"
-                size={24}
-                color={Colors.gray}
-              />
-            }
-            textLabel="Account KYC Verification"
-            textColor={Colors.gray}
-            bgColor={Colors.white}
-            triggerModal={setShowModal}
-          />
+            {/* Fund User Account for Payment */}
+            <ProfileActionComp
+              icon={
+                <MaterialCommunityIcons
+                  name="cash-plus"
+                  size={24}
+                  color={Colors.gray}
+                />
+              }
+              textLabel="Fund Your Account"
+              textColor={Colors.gray}
+              bgColor={Colors.white}
+              triggerModal={setShowModal}
+            />
 
-          {/* Customer Care Service */}
-          <ProfileActionComp
-            icon={
-              <AntDesign name="customerservice" size={24} color={Colors.gray} />
-            }
-            textLabel="Customer Care Service"
-            textColor={Colors.gray}
-            bgColor={Colors.white}
-            triggerModal={setShowModal}
-          />
-        </View>
+            {/* Account KYC Verification */}
+            <ProfileActionComp
+              icon={
+                <MaterialCommunityIcons
+                  name="cash-plus"
+                  size={24}
+                  color={Colors.gray}
+                />
+              }
+              textLabel="Account KYC Verification"
+              textColor={Colors.gray}
+              bgColor={Colors.white}
+              triggerModal={setShowModal}
+            />
+
+            {/* Customer Care Service */}
+            <ProfileActionComp
+              icon={
+                <AntDesign
+                  name="customerservice"
+                  size={24}
+                  color={Colors.gray}
+                />
+              }
+              textLabel="Customer Care Service"
+              textColor={Colors.gray}
+              bgColor={Colors.white}
+              triggerModal={setShowModal}
+            />
+          </View>
+        )}
 
         {/* Implement Modals for The various Profile Actions */}
         {fullUser && showModal && (
@@ -298,5 +307,12 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: Colors.white,
     fontSize: 16,
+  },
+
+  showDetails: {
+    paddingVertical: 2,
+    paddingHorizontal: 7,
+    backgroundColor: 'white',
+    borderRadius: 7,
   },
 });

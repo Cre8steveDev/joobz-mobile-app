@@ -91,7 +91,7 @@ export type FullUser = {
   };
   paymentMethods: { type: string; details: any };
   jobsPosted: any[];
-  wallet: ObjectId;
+  wallet: { _id: string; current_balance: number; transaction_history: any[] };
   reviews: any[];
   averageRating: number;
   invitations: any[];

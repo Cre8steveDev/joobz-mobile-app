@@ -15,6 +15,7 @@ import { Redirect } from 'expo-router';
 
 import DiscoverMap from '@/components/ui/discover/DiscoverMap';
 import fetchMarkerDataForProfessionalsByState from '@/lib/fetchMarkerDataForProfessionalsByState';
+import handleUpdateUserLocation from '@/lib/handleUpdateUserLocation';
 
 // Define type for location
 type LocationType = { longitude: number; latitude: number } | null;
@@ -44,11 +45,22 @@ const Discover = () => {
           return;
         }
 
-        const location = await Location.getCurrentPositionAsync({});
+        const location = await Location.getCurrentPositionAsync({
+          accuracy: Location.Accuracy.Balanced,
+        });
         setUserLocation({
           latitude: location.coords.latitude,
           longitude: location.coords.longitude,
         });
+
+        // Update User location on the database if signed in user
+        // location is still at default
+        if (user.location.latitude === 0)
+          handleUpdateUserLocation(
+            user._id,
+            location.coords.longitude,
+            location.coords.latitude
+          );
       } catch (error) {
         useToast('Error requesting location:', 'red', 'white');
       }
