@@ -6,11 +6,16 @@ import PrettyDates from '@/lib/prettyDate';
 
 const MiniUserDetails = ({ fullUser }: { fullUser: FullUser }) => {
   const balance = fullUser.wallet.current_balance;
-  const reviews = fullUser.reviews.length;
+  const reviews = fullUser?.reviews.length || 0;
   const phone = fullUser.phoneNumber;
-  const jobsPosted = fullUser.jobsPosted.length;
+  const jobsPosted = fullUser?.jobsPosted.length || 0;
   const rating = fullUser.averageRating;
-  const languages = fullUser.languages.join(' | ');
+  const languages = fullUser.languages.join(', ');
+  const website = fullUser.socialMedia?.website || '';
+  const twitter = fullUser.socialMedia?.twitter || '';
+  const company = fullUser.companyName || '';
+  const industry = fullUser.industry || '';
+  const isActive = fullUser.isActive;
 
   //   Return JSX
   return (
@@ -18,7 +23,25 @@ const MiniUserDetails = ({ fullUser }: { fullUser: FullUser }) => {
       {/* Email Address */}
       <LabelAndValue label="Email:" value={fullUser.email} />
       <LabelAndValue label="Phone:" value={phone} />
+      <LabelAndValue
+        label="Company:"
+        value={company.length > 0 ? company : 'Not stated'}
+      />
+      <LabelAndValue
+        label="Industry:"
+        value={industry.length > 0 ? industry : 'Not stated'}
+      />
       <LabelAndValue label="Account Type:" value={'User'} />
+
+      <LabelAndValue
+        label="Website:"
+        value={website.length > 0 ? website : 'Not stated'}
+      />
+
+      <LabelAndValue
+        label="Twitter:"
+        value={twitter.length > 0 ? twitter : 'Not stated'}
+      />
 
       <LabelAndValue
         label="Current Balance:"
@@ -47,6 +70,14 @@ const MiniUserDetails = ({ fullUser }: { fullUser: FullUser }) => {
         label="Date Joined:"
         value={PrettyDates(fullUser.dateJoined)}
       />
+
+      {/* Status: Active or Inactive */}
+      <View style={styles.detailContainer}>
+        <Text style={styles.detailLabel}>Account Status:</Text>
+        <Text style={isActive ? styles.active : styles.inactive}>
+          {isActive ? 'Active' : ' Not Active'}
+        </Text>
+      </View>
     </View>
   );
 };
@@ -86,12 +117,32 @@ const styles = StyleSheet.create({
     gap: 6,
     alignItems: 'center',
   },
+
   detailLabel: {
     width: '35%',
     fontSize: 16,
   },
+
   detailValue: {
     fontSize: 16,
     color: Colors.gray,
+  },
+
+  active: {
+    fontSize: 13,
+    color: 'white',
+    backgroundColor: Colors.primary,
+    paddingHorizontal: 7,
+    paddingVertical: 1,
+    borderRadius: 6,
+  },
+
+  inactive: {
+    fontSize: 13,
+    color: 'white',
+    backgroundColor: Colors.gray,
+    paddingHorizontal: 7,
+    paddingVertical: 1,
+    borderRadius: 6,
   },
 });

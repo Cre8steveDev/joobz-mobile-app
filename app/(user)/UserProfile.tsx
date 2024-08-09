@@ -1,6 +1,4 @@
 import {
-  FlatList,
-  Modal,
   ScrollView,
   StyleSheet,
   Text,
@@ -12,12 +10,10 @@ import React, { ReactNode, useEffect, useState } from 'react';
 import LoadingScreen from '@/components/ui/LoadingScreen';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { FullUser, UserJob } from '@/types/global';
+import { FullUser } from '@/types/global';
 import { useAuthRedirect } from '@/hooks/useSignedInRedirect';
 import { Redirect } from 'expo-router';
-import EmptyResult from '@/components/ui/EmptyResult';
 import Colors from '@/constants/Colors';
-import Button from '@/components/ui/buttons/Button';
 import {
   AntDesign,
   Ionicons,
@@ -39,6 +35,9 @@ const UserProfile = () => {
   const [fullUser, setFullUser] = useState<FullUser | null>(null);
   const [showFullDetails, setShowFullDetails] = useState(false);
   const [showModal, setShowModal] = useState(false);
+
+  // Modal for profile actions
+  const [showUpdateProfile, setShowUpdateProfile] = useState(false);
 
   // dispatch function
   const dispatch = useDispatch();
@@ -72,9 +71,13 @@ const UserProfile = () => {
     <SafeAreaView style={styles.safeArea}>
       <ScrollView
         style={{ flex: 1, height: '100%' }}
-        contentContainerStyle={{
-          marginVertical: 'auto',
-        }}
+        contentContainerStyle={
+          showFullDetails
+            ? {
+                paddingVertical: 20,
+              }
+            : { marginVertical: 'auto' }
+        }
       >
         <View style={styles.profileHeader}>
           <Image
@@ -104,6 +107,9 @@ const UserProfile = () => {
             style={styles.profileSubtitleText}
           >{`${user.location.state}, ${user.location.country}`}</Text>
 
+          {/* User Data */}
+          {fullUser && <Text style={styles.profileBio}>{fullUser?.bio}</Text>}
+
           {/* Button to trigger showing full profile details */}
           <TouchableOpacity
             onPress={() => setShowFullDetails((prev) => !prev)}
@@ -127,7 +133,7 @@ const UserProfile = () => {
               textLabel="Update Profile Info"
               textColor={Colors.gray}
               bgColor={Colors.white}
-              triggerModal={setShowModal}
+              triggerModal={setShowUpdateProfile}
             />
 
             {/* Fund User Account for Payment */}
@@ -178,10 +184,10 @@ const UserProfile = () => {
         )}
 
         {/* Implement Modals for The various Profile Actions */}
-        {fullUser && showModal && (
+        {fullUser && showUpdateProfile && (
           <UpdateProfileInformation
-            showModal={showModal}
-            setShowModal={setShowModal}
+            showModal={showUpdateProfile}
+            setShowModal={setShowUpdateProfile}
             fullUser={fullUser}
             setFullUser={setFullUser}
           />
@@ -199,7 +205,6 @@ const UserProfile = () => {
 export default UserProfile;
 
 // Define Type for the Profile Action Component
-
 type ProfileActionProp = {
   icon: ReactNode;
   textLabel: string;
@@ -257,11 +262,19 @@ const styles = StyleSheet.create({
   },
 
   profileSubtitleText: {
-    textAlign: 'center',
     fontFamily: 'PoppinsBold',
+    textAlign: 'center',
     fontSize: 18,
     color: 'rgba(255, 255, 255, 0.6)',
     marginTop: -12,
+  },
+
+  profileBio: {
+    textAlign: 'center',
+    fontSize: 18,
+    color: 'white',
+    marginBottom: 15,
+    paddingHorizontal: 25,
   },
 
   allActionsContainer: {

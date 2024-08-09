@@ -20,6 +20,8 @@ type CustomTextInputProp = {
   containerStyle?: any;
   children: ReactNode;
   editable?: boolean;
+  multiline?: boolean;
+  maxlength?: number | undefined;
 };
 
 const CustomTextInput = ({
@@ -33,7 +35,9 @@ const CustomTextInput = ({
   inputStyles,
   containerStyle,
   editable = true,
+  multiline = false,
   children,
+  maxlength = undefined,
 }: CustomTextInputProp) => {
   return (
     <View
@@ -60,6 +64,8 @@ const CustomTextInput = ({
         keyboardAppearance="light"
         keyboardType={keyBoardType}
         autoComplete="off"
+        multiline={multiline}
+        maxLength={maxlength}
         returnKeyType={returnType}
         autoCapitalize="none"
         autoCorrect={false}

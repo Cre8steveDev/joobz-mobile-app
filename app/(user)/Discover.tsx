@@ -46,7 +46,7 @@ const Discover = () => {
         }
 
         const location = await Location.getCurrentPositionAsync({
-          accuracy: Location.Accuracy.Balanced,
+          accuracy: Location.Accuracy.BestForNavigation,
         });
         setUserLocation({
           latitude: location.coords.latitude,
@@ -78,7 +78,9 @@ const Discover = () => {
 
   // Return Loading Screen
   if (loading) {
-    return <LoadingScreen text="Loading..." />;
+    return (
+      <LoadingScreen text="Loading map data..." bgColor={Colors.secondary} />
+    );
   }
 
   // Return JSX To the View
